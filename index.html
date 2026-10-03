@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>AI Writer — Text Summarization</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>📝 AI Writer <span>Text Summarization</span></h1>
+      <p class="subtitle">Paste a long article below and get a concise, readable summary — powered by {{ model_name }}.</p>
+    </header>
+
+    <div class="grid">
+      <section class="panel">
+        <label for="articleInput">Article text</label>
+        <textarea id="articleInput" placeholder="Paste your article here (works best with 100+ words)..."></textarea>
+        <div class="meta-row">
+          <span id="wordCounter">0 words</span>
+        </div>
+
+        <div class="controls">
+          <div class="control">
+            <label for="maxLength">Max summary length</label>
+            <input type="number" id="maxLength" value="150" min="30" max="500" />
+          </div>
+          <div class="control">
+            <label for="minLength">Min summary length</label>
+            <input type="number" id="minLength" value="40" min="10" max="200" />
+          </div>
+          <div class="control checkbox">
+            <label><input type="checkbox" id="saveHistory" /> Save to history</label>
+          </div>
+        </div>
+
+        <button id="summarizeBtn">Summarize</button>
+        <p id="errorMsg" class="error hidden"></p>
+      </section>
+
+      <section class="panel result-panel">
+        <div class="result-header">
+          <h2>Summary</h2>
+          <button id="historyBtn" class="secondary">View History</button>
+        </div>
+        <div id="loading" class="hidden">
+          <div class="spinner"></div>
+          <p>Summarizing... this can take a few seconds on first run while the model loads.</p>
+        </div>
+        <div id="summaryOutput" class="summary-output">
+          <p class="placeholder">Your summary will appear here.</p>
+        </div>
+        <div id="statsRow" class="stats-row hidden">
+          <div class="stat">
+            <span class="stat-value" id="statOriginal">-</span>
+            <span class="stat-label">Original words</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value" id="statSummary">-</span>
+            <span class="stat-label">Summary words</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value" id="statCompression">-</span>
+            <span class="stat-label">Compression</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value" id="statReadability">-</span>
+            <span class="stat-label">Readability</span>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- History modal -->
+    <div id="historyModal" class="modal hidden">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Summary History</h2>
+          <button id="closeHistory" class="secondary">Close</button>
+        </div>
+        <button id="clearHistory" class="danger">Clear History</button>
+        <div id="historyList"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
